@@ -1,6 +1,7 @@
 package com.rocket.Domino.service;
 
 import com.rocket.Domino.persistence.entity.OrderEntity;
+import com.rocket.Domino.persistence.projection.OrderSummary;
 import com.rocket.Domino.persistence.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,13 @@ public class OrderService {
     public List<OrderEntity> getOutSideOrders(){
         List<String> methods= Arrays.asList(DELIVERY,CARRYOUT);
         return this.repository.findAllByMethodIn(methods);
+    }
+
+    public List<OrderEntity> getCustomerOrders(String idCustomer){
+        return this.repository.findCustomerOrders(idCustomer);
+    }
+
+    public OrderSummary getSummary(int orderId){
+        return this.repository.findSummary(orderId);
     }
 }

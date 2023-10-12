@@ -49,5 +49,7 @@ public class OrderEntity {
     private CustomerEntity customer;
     //EAGER se sube con la clase
     @OneToMany(mappedBy = "order",fetch = FetchType.EAGER)
+    //permite ordenar en las consultas , usamos anotaciondes de hibernate
+    @OrderBy("price DESC")
     private List<OrderItemEntity> items;
 }
