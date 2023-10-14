@@ -3,8 +3,10 @@ package com.rocket.Domino.service;
 import com.rocket.Domino.persistence.entity.OrderEntity;
 import com.rocket.Domino.persistence.projection.OrderSummary;
 import com.rocket.Domino.persistence.repository.OrderRepository;
+import com.rocket.Domino.service.dto.RandomOrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,4 +44,10 @@ public class OrderService {
     public OrderSummary getSummary(int orderId){
         return this.repository.findSummary(orderId);
     }
+
+    @Transactional
+    public boolean saveRandomOrder(RandomOrderDto randomOrderDto){
+        return this.repository.saveRandomOrder(randomOrderDto.getIdCustomer(),randomOrderDto.getMethod());
+    }
+
 }

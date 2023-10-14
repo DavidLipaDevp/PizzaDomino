@@ -2,6 +2,7 @@ package com.rocket.Domino.web.controller;
 
 import com.rocket.Domino.persistence.entity.PizzaEntity;
 import com.rocket.Domino.service.PizzaService;
+import com.rocket.Domino.service.dto.UpdatePizzaPriceDto;
 import lombok.Builder;
 import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,15 @@ public class PizzaController {
         }
         return ResponseEntity.badRequest().build();
     }
+    @PutMapping("/price")
+    public ResponseEntity<Void> updatePrice(@RequestBody UpdatePizzaPriceDto dto) {
+        if (this.pizzaService.exists(dto.getPizzaId())) {
+            this.pizzaService.updatePrice(dto);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
 
     @PostMapping()
     public ResponseEntity<PizzaEntity> insertar(@RequestBody PizzaEntity pizza) {

@@ -3,6 +3,8 @@ package com.rocket.Domino.service;
 import com.rocket.Domino.persistence.entity.PizzaEntity;
 import com.rocket.Domino.persistence.repository.PizzaPagSortRepository;
 import com.rocket.Domino.persistence.repository.PizzaRepository;
+import com.rocket.Domino.service.dto.UpdatePizzaPriceDto;
+import com.rocket.Domino.service.exception.EmailApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -67,6 +71,21 @@ public class PizzaService {
 
     public boolean exists(int idPizza){
         return this.pizzaRepository.existsById(idPizza);
+    }
+
+    //Query Method
+    //ACID = Transactional
+    //noRollbackFor =si ocurre alguna excepcion con el .class de igual manera ejecutara
+    @Transactional(noRollbackFor = EmailApiException.class
+ //propagation = Propagation.REQUIRED <- permite crear una transaccion si no hay una
+    )
+    public void updatePrice(UpdatePizzaPriceDto dto){
+        this.pizzaRepository.updatePrice(dto);
+        //this.sendEmail();
+    }
+
+    private void sendEmail(){
+        throw new EmailApiException();
     }
 
 
